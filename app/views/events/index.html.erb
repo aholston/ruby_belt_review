@@ -1,0 +1,75 @@
+<h2>Here are some events in your state!</h2>
+<table>
+  <tr>
+    <th>Event</th>
+    <th>Date</th>
+    <th>Location</th>
+    <th>Host</th>
+    <th>Actions</th>
+  </tr>
+<% @events.each do |event| %>
+  <% if event.state == @user.state %>
+  <tr>
+    <td><a href='/events/<%= event.id %>'><%= event.name %></a></td>
+    <td><%= event.date %></td>
+    <td><%= event.city %></td>
+    <td>
+      <%= event.user.first_name %>
+    <td>
+    <% if @user.events_attending.include? event %>
+      <td>
+        Joined <a href='/attendees/<%= event.id %>' data-method='DELETE'>Cancel</a>
+      </td>
+    <% elsif event.user == @user %>
+      <td>
+        <a href='/events/<%= event.id %>/edit'>Edit</a>
+        <a href='/events/<%= event.id %>' data-method='DELETE'>Delete</a>
+      </td>
+    <% else %>
+      <td>
+        <a href='attendees/<%= event.id %>'>Join</a>
+      </td>
+    <% end %>
+  <% end %>
+<% end %>
+</table>
+
+<h2>Here are some events in other states!</h2>
+<table>
+  <tr>
+    <th>Event</th>
+    <th>Date</th>
+    <th>Location</th>
+    <th>Host</th>
+    <th>Actions</th>
+  </tr>
+  <% @events.each do |event| %>
+    <% if event.state != @user.state %>
+
+    <tr>
+      <td><a href='/events/<%= event.id %>'><%= event.name %></a></td>
+      <td><%= event.date %></td>
+      <td><%= event.city %></td>
+      <td>
+        <%= event.user.first_name %>
+      <td>
+      <% if @user.events_attending.include? event %>
+        <td>
+          Joined <a href='/attendees/<%= event.id %>' data-method='DELETE'>Cancel</a>
+        </td>
+      <% elsif event.user == @user %>
+        <td>
+          <a href='/events/<%= event.id %>/edit'>Edit</a>
+          <a href='/events/<%= event.id %>' data-method='DELETE'>Delete</a>
+        </td>
+      <% else %>
+        <td>
+          <a href='attendees/<%= event.id %>'>Join</a>
+        </td>
+      <% end %>
+    <% end %>
+  <% end %>
+</table>
+
+<h4>Add a new Event</h4>
+<%= render 'partials/create_event' %>

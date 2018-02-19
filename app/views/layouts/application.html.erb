@@ -7,6 +7,14 @@
   <%= csrf_meta_tags %>
 </head>
 <body>
+  <%= render 'partials/flash_messages' if !flash.empty? %>
+  <% if session[:user_id] %>
+    <h2>Welcome, <%= @user.first_name %></h2>
+    <a href='/sessions/destroy'>Log Out</a>
+    <a href='/users/<%= @user.id %>/edit'>Edit Profile</a>
+    <a href='/events'>Home</a>
+  <% end %>
+
 
 <%= yield %>
 

@@ -1,0 +1,33 @@
+<h2><%= @event.name %></h2>
+
+<p><strong>Host:</strong> <%= @event.user.first_name %></p>
+<p><strong>Date:</strong> <%= @event.date %></p>
+<p><strong>Location:</strong> <%= @event.city %>, <%= @event.state %></p>
+<p><strong>People joining:</strong> <%= @event.users_attending.count %></p>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>City</th>
+    <th>State</th>
+  </tr>
+  <% @event.users_attending.each do |user| %>
+  <tr>
+    <td><%= user.first_name %></td>
+    <td><%= user.city %></td>
+    <td><%= user.state %></td>
+  </tr>
+  <% end %>
+</table>
+
+<div id='comments'>
+  <% @comments.each do |comment| %>
+  <p><strong><%= comment.user.first_name %></strong> says: <%= comment.content %></p>
+  <% end %>
+</div>
+
+<h5>Add a comment!</h5>
+<form action='/comments/<%= @event.id %>' method='POST'>
+  <input type='hidden' name='authenticity_token' value='<% form_authenticity_token %>'>
+  <textarea name='comment[content]' cols='50' rows='15'></textarea><br>
+  <input type='submit' value='Comment'>
+</form>
